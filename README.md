@@ -1,1 +1,1 @@
-# fastapi_anonymous_notes_service
+# Сервис анонимных записок
