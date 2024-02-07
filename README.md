@@ -1,0 +1,1 @@
+# fastapi_anonymous_notes_service
