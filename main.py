@@ -12,5 +12,5 @@ notes_list = NoteList()
 async def get_home_page(request: Request):
     return templates.TemplateResponse("index.html", {
         "request": request,
-        "notes_count": len(notes_list.all_notes)    
+        "notes_count": len(notes_list.all_notes)
     })

@@ -10,7 +10,7 @@ class Note(BaseModel):
 
 
 class NoteList(BaseModel):
-    all_notes: List[Note] = list
+    all_notes: List[Note] = list()
 
 
 # class NoteID(BaseModel):
