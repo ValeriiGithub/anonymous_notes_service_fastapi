@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from schemas import Note, NoteList
+from cipher import get_note_id
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")      # Шаблоны
@@ -17,4 +18,9 @@ async def get_home_page(request: Request):
 
 @app.post("/create_note")
 async def send_notes(note_data: Note):
-    return "test"
+    # Генерируем ID записки
+    note_id = get_note_id(text=note_data.text, salt=note_data.secret)
+    note_data.note_hash = note_id
+    notes_list.all_notes.append(note_data)
+    return {"response": "ok", "note_id": note_id}
+
