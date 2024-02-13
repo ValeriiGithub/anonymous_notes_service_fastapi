@@ -6,8 +6,9 @@ from schemas import Note, NoteList, NoteID
 from cipher import get_note_id
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")      # Шаблоны
+templates = Jinja2Templates(directory="templates")  # Шаблоны
 notes_list = NoteList()
+
 
 @app.get("/", response_class=HTMLResponse)
 async def get_home_page(request: Request):
@@ -15,6 +16,7 @@ async def get_home_page(request: Request):
         "request": request,
         "notes_count": len(notes_list.all_notes)
     })
+
 
 @app.post("/create_note")
 async def send_notes(note_data: Note):
@@ -24,6 +26,7 @@ async def send_notes(note_data: Note):
     notes_list.all_notes.append(note_data)
     return {"response": "ok", "note_id": note_id}
 
+
 @app.get("/result/{note_id}", response_class=HTMLResponse)
 async def get_result_id(request: Request, note_id: str):
     return templates.TemplateResponse("hash_storage.html", {
@@ -31,15 +34,24 @@ async def get_result_id(request: Request, note_id: str):
         "note_id": note_id
     })
 
+
 @app.post("/get_note")
 async def get_note(note_data: NoteID):
-    for note in notes_list.all_notes:   # по уже добавленной записи
+    for note in notes_list.all_notes:  # по уже добавленной записи
         if (note_data.note_id == note.note_hash and
-            note_data.note_secret == note.secret):
-                note_index = notes_list.all_notes.index(note)
-                notes_list.all_notes.pop(note_index)
-                return {"response": "ok",
-                        "note_final_text": note.text}
+                note_data.note_secret == note.secret):
+            note_index = notes_list.all_notes.index(note)
+            notes_list.all_notes.pop(note_index)
+            return {"response": "ok",
+                    "note_final_text": note.text}
     # Если записка не найдена
     return {"response": "ok",
             "note_final_text": "Such a note does not exist"}
+
+
+@app.post("/note_page/{note_text}", response_class=HTMLResponse)
+async def get_note_page(request: Request, note_text: str):
+    return templates.TemplateResponse("note_page.html", {
+        "request": request,
+        "note_text": note_text
+    })
