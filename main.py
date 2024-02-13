@@ -24,3 +24,6 @@ async def send_notes(note_data: Note):
     notes_list.all_notes.append(note_data)
     return {"response": "ok", "note_id": note_id}
 
+@app.get("/result/{note_id}", response_class=HTMLResponse)
+async def get_result_id(request: Request, note_id: str):
+    return note_id
