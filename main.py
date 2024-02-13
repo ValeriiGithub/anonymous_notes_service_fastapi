@@ -15,6 +15,6 @@ async def get_home_page(request: Request):
         "notes_count": len(notes_list.all_notes)
     })
 
-@app.get("/create_note")
+@app.post("/create_note")
 async def send_notes(note_data: Note):
     return "test"
