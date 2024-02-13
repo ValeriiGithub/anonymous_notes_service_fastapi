@@ -13,6 +13,6 @@ class NoteList(BaseModel):
     all_notes: List[Note] = list()
 
 
-# class NoteID(BaseModel):
-#     note_id: str
-#     note_secret: str
+class NoteID(BaseModel):
+    note_id: str
+    note_secret: str
