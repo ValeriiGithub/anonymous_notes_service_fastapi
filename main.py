@@ -26,4 +26,7 @@ async def send_notes(note_data: Note):
 
 @app.get("/result/{note_id}", response_class=HTMLResponse)
 async def get_result_id(request: Request, note_id: str):
-    return note_id
+    return templates.TemplateResponse("hash_storage.html", {
+        "request": request,
+        "note_id": note_id
+    })
