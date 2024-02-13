@@ -2,12 +2,12 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from schemas import Note, NoteList, NoteID
+from schemas import Note, NotesList, NoteID
 from cipher import get_note_id
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")  # Шаблоны
-notes_list = NoteList()
+notes_list = NotesList()
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -49,8 +49,8 @@ async def get_note(note_data: NoteID):
             "note_final_text": "Such a note does not exist"}
 
 
-@app.post("/note_page/{note_text}", response_class=HTMLResponse)
-async def get_note_page(request: Request, note_text: str):
+@app.get("/note_page/{note_text}", response_class=HTMLResponse)
+async def get_result_note(request: Request, note_text: str):
     return templates.TemplateResponse("note_page.html", {
         "request": request,
         "note_text": note_text
