@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from schemas import Note, NoteList
+from schemas import Note, NoteList, NoteID
 from cipher import get_note_id
 
 app = FastAPI()
@@ -30,3 +30,16 @@ async def get_result_id(request: Request, note_id: str):
         "request": request,
         "note_id": note_id
     })
+
+@app.post("/get_note")
+async def get_note(note_data: NoteID):
+    for note in notes_list.all_notes:   # по уже добавленной записи
+        if (note_data.note_id == note.note_hash and
+            note_data.note_secret == note.secret):
+                note_index = notes_list.all_notes.index(note)
+                notes_list.all_notes.pop(note_index)
+                return {"response": "ok",
+                        "note_final_text": note.text}
+    # Если записка не найдена
+    return {"response": "ok",
+            "note_final_text": "Such a note does not exist"}
