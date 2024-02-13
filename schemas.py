@@ -9,7 +9,7 @@ class Note(BaseModel):
     note_hash: str = None   # Результат, ссылка на готовую записку
 
 
-class NoteList(BaseModel):
+class NotesList(BaseModel):
     all_notes: List[Note] = list()
 
 
